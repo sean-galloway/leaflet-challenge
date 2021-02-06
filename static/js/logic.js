@@ -3,7 +3,7 @@ const earthquakeUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary
 const plateUrl = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
 
 // set up the categories for the earthquakes
-const categories = [0, 1, 2, 3, 4, 5, 6, 7];
+const categories = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
 // Perform a GET request to the query URLs
 (async function(){
@@ -17,6 +17,15 @@ const categories = [0, 1, 2, 3, 4, 5, 6, 7];
   createFeatures(earthquakeData.features, plateData.features);
 })()
 
+// Pad a String with 0's
+function pad_with_zeroes(theString, length) {
+  var my_string = '' + theString;
+  while (my_string.length < length) {
+      my_string = '0' + my_string;
+  }
+  return my_string;
+}
+
 // Convert decimal to Hex String
 function decimalToHexString(number) {
   var numberRound = Math.round(number)
@@ -24,22 +33,26 @@ function decimalToHexString(number) {
     numberRound = 0xFFFFFFFF + numberRound + 1;
   }
   var numStr = numberRound.toString(16).toUpperCase();
-  if (numStr.length == 1) {
-    numStr = "0" + numStr;
-  }
+  numStr = pad_with_zeroes(numStr, 2);
   return numStr;
 }
 
-// Generate a color based on the Magnitude
+// Generate a color from green to red based on the Magnitude
 function generateColor(magnitude) {
+  // Find the maximum in the categories array
   var max = Math.max(...categories);
+  // set the multiplication factor
   var factor = 255 / max;
+  // find the red value in the range 0-255
   var red = factor * magnitude;
   if (red < 0) { red = 0; }
+  // find the green value in the range 0-255
   var green = factor * (max - magnitude);
   if (green < 0) { green = 0; }
+  // get the hex versions
   var redHex = decimalToHexString(red);
   var greenHex = decimalToHexString(green);
+  // make the color string and return it
   var colorString = "#" + redHex + greenHex + "00";
   return colorString;
 }
