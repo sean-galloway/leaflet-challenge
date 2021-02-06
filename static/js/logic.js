@@ -1,11 +1,11 @@
 // Set up the URL's
 const earthquakeUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
-const plateUrl = 'https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json';
+const plateUrl = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
 
-var categories = ['0','1', '2', '3', '4','5','6','7+'];
-var categories_color = [0, 1, 2, 3, 4, 5, 6, 7];
+// set up the categories for the earth quakes
+const categories = [0, 1, 2, 3, 4, 5, 6, 7];
 
-// Perform a GET request to the query URL
+// Perform a GET request to the query URLs
 (async function(){
   const earthquakeData = await d3.json(earthquakeUrl);
   console.log(earthquakeData.features)
@@ -18,10 +18,11 @@ var categories_color = [0, 1, 2, 3, 4, 5, 6, 7];
 })()
 
 function getColor(magnitude) {
-  return  magnitude >= 7  ? '#ee6c6e' :
-          magnitude >= 6  ? '#eea770' :
-          magnitude >= 5  ? '#f2b957' :
-          magnitude >= 3  ? '#f2db5a' :
+  return  magnitude >= 7  ? '#8b0000' :
+          magnitude >= 6  ? '#cd5c5c' :
+          magnitude >= 5  ? '#ffdab9' :
+          magnitude >= 4  ? '#ffff66' :
+          magnitude >= 3  ? '#ffffcc' :
           magnitude >= 2  ? '#adff2f' :
           magnitude >= 1  ? '#008000' :
                             '#006400' ;
@@ -122,9 +123,13 @@ function createMap(earthquakes, plates) {
     let div = L.DomUtil.create('div', 'info legend');
     var labels = ['<strong>Magnitude</strong>'];
     for (var i = 0; i < categories.length; i++) {
-        div.innerHTML +=
-          labels.push('<i class="circle" style="background:' + getColor(categories_color[i]) + '"></i> ' +
-                        (categories[i] ? categories[i] : '+'));
+      var color_text = categories[i].toString();
+      if (i == categories.length - 1) {
+        color_text += "+";
+      }
+      div.innerHTML +=
+        labels.push('<i class="circle" style="background:' + getColor(categories[i]) + '"></i> ' +
+                      (color_text ? color_text : '+'));
     }
     div.innerHTML = labels.join('<br>');
     return div;
