@@ -14,12 +14,12 @@ Sample images of visualizations with different map layers:
 
 ## Satellite Map
 
-![satellite-map](img/2021-02-05_17_33_16-Geo_JSON_Leaflet_Challenge.png)
+![satellite-map](img/satellite.png)
 
 ## Grayscale Map
 
-![grayscale-map](img/2021-02-05_17_34_58-Geo_JSON_Leaflet_Challenge.png)
+![grayscale-map](img/grayscale.png)
 
 ## Outdoors Map
 
-![outdoors-map](img/2021-02-05_17_35_40-Geo_JSON_Leaflet_Challenge.png)
+![outdoors-map](img/outdoors.png)
