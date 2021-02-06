@@ -66,21 +66,27 @@ function createMap(earthquakes, plates) {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     id: 'mapbox/satellite-streets-v11',
-    accessToken: API_KEY
+    accessToken: API_KEY,
+    bounds : [[-90, -180], [90, 180]],
+    noWrap: true
   });
 
   const grayscale = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     id: "mapbox/light-v10",
-    accessToken: API_KEY
+    accessToken: API_KEY,
+    bounds : [[-90, -180], [90, 180]],
+    noWrap: true
   });
 
   const outdoors = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     id: "mapbox/outdoors-v11",
-    accessToken: API_KEY
+    accessToken: API_KEY,
+    bounds : [[-90, -180], [90, 180]],
+    noWrap: true
   });
 
   // Define a baseMaps object to hold our base layers
@@ -98,9 +104,7 @@ function createMap(earthquakes, plates) {
 
   // Create our map, giving it the satellite, plates and earthquakes layers to display on load
   var myMap = L.map("map", {
-    center: [
-      37.09, -95.71
-    ],
+    center: [37.09, -95.71],
     zoom: 5,
     layers: [satellite, plates, earthquakes]
   });
