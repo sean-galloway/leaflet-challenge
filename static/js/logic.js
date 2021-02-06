@@ -44,11 +44,13 @@ function generateColor(magnitude) {
   // set the multiplication factor
   var factor = 255 / max;
   // find the red value in the range 0-255
-  var red = factor * magnitude;
+  var red = 2 * factor * magnitude;
   if (red < 0) { red = 0; }
+  if (red > 255) { red = 255; }
   // find the green value in the range 0-255
-  var green = factor * (max - magnitude);
+  var green = 2 * factor * (max - magnitude);
   if (green < 0) { green = 0; }
+  if (green > 255) { green = 255; }
   // get the hex versions
   var redHex = decimalToHexString(red);
   var greenHex = decimalToHexString(green);
