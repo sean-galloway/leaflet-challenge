@@ -4,6 +4,10 @@ const plateUrl = "https://raw.githubusercontent.com/fraxen/tectonicplates/master
 
 // set up the categories for the earthquakes
 const categories = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+// Find the maximum in the categories array
+var max = Math.max(...categories);
+// set the multiplication factor for the generateColor function
+var factor = 255 / max;
 
 // Perform a GET request to the query URLs
 (async function(){
@@ -18,12 +22,12 @@ const categories = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 })()
 
 // Pad a String with 0's
-function pad_with_zeroes(theString, length) {
-  var my_string = '' + theString;
-  while (my_string.length < length) {
-      my_string = '0' + my_string;
+function padWithZeroes(theString, length) {
+  var myString = '' + theString;
+  while (myString.length < length) {
+      myString = '0' + myString;
   }
-  return my_string;
+  return myString;
 }
 
 // Convert decimal to Hex String
@@ -33,16 +37,12 @@ function decimalToHexString(number) {
     numberRound = 0xFFFFFFFF + numberRound + 1;
   }
   var numStr = numberRound.toString(16).toUpperCase();
-  numStr = pad_with_zeroes(numStr, 2);
+  numStr = padWithZeroes(numStr, 2);
   return numStr;
 }
 
 // Generate a color from green to red based on the Magnitude
 function generateColor(magnitude) {
-  // Find the maximum in the categories array
-  var max = Math.max(...categories);
-  // set the multiplication factor
-  var factor = 255 / max;
   // find the red value in the range 0-255
   var red = 2 * factor * magnitude;
   if (red < 0) { red = 0; }
