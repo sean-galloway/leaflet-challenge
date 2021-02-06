@@ -17,15 +17,31 @@ const categories = [0, 1, 2, 3, 4, 5, 6, 7];
   createFeatures(earthquakeData.features, plateData.features);
 })()
 
-function getColor(magnitude) {
-  return  magnitude >= 7  ? '#8b0000' :
-          magnitude >= 6  ? '#cd5c5c' :
-          magnitude >= 5  ? '#ffdab9' :
-          magnitude >= 4  ? '#ffff66' :
-          magnitude >= 3  ? '#ffffcc' :
-          magnitude >= 2  ? '#adff2f' :
-          magnitude >= 1  ? '#008000' :
-                            '#006400' ;
+// Convert decimal to Hex String
+function decimalToHexString(number) {
+  var numberRound = Math.round(number)
+  if (numberRound < 0) {
+    numberRound = 0xFFFFFFFF + numberRound + 1;
+  }
+  var numStr = numberRound.toString(16).toUpperCase();
+  if (numStr.length == 1) {
+    numStr = "0" + numStr;
+  }
+  return numStr;
+}
+
+// Generate a color based on the Magnitude
+function generateColor(magnitude) {
+  var max = Math.max(...categories);
+  var factor = 255 / max;
+  var red = factor * magnitude;
+  if (red < 0) { red = 0; }
+  var green = factor * (max - magnitude);
+  if (green < 0) { green = 0; }
+  var redHex = decimalToHexString(red);
+  var greenHex = decimalToHexString(green);
+  var colorString = "#" + redHex + greenHex + "00";
+  return colorString;
 }
 
 function createFeatures(earthquakeData, plateData) {
@@ -43,7 +59,7 @@ function createFeatures(earthquakeData, plateData) {
     pointToLayer: function(feature, latlng) {
       var marker = new L.CircleMarker(latlng, {
         radius: feature.properties.mag * 3,
-        fillColor: getColor(feature.properties.mag),
+        fillColor: generateColor(feature.properties.mag),
         fillOpacity: 0.8,
         weight: 1,
         color: "black"
@@ -133,7 +149,7 @@ function createMap(earthquakes, plates) {
         color_text += "+";
       }
       div.innerHTML +=
-        labels.push('<i class="circle" style="background:' + getColor(categories[i]) + '"></i> ' +
+        labels.push('<i class="circle" style="background:' + generateColor(categories[i]) + '"></i> ' +
                       (color_text ? color_text : '+'));
     }
     div.innerHTML = labels.join('<br>');
