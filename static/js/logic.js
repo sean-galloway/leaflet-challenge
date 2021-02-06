@@ -25,7 +25,7 @@ var factor = 255 / max;
 function padWithZeroes(theString, length) {
   var myString = '' + theString;
   while (myString.length < length) {
-      myString = '0' + myString;
+      myString = `0${myString}`;
   }
   return myString;
 }
