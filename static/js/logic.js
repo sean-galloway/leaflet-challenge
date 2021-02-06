@@ -2,7 +2,7 @@
 const earthquakeUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 const plateUrl = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
 
-// set up the categories for the earth quakes
+// set up the categories for the earthquakes
 const categories = [0, 1, 2, 3, 4, 5, 6, 7];
 
 // Perform a GET request to the query URLs
@@ -41,13 +41,14 @@ function createFeatures(earthquakeData, plateData) {
   // Run the onEachFeature function once for each piece of data in the array
   var earthquakes = L.geoJSON(earthquakeData, {
     pointToLayer: function(feature, latlng) {
-      return new L.CircleMarker(latlng, {
-          radius: feature.properties.mag * 3,
-          fillColor: getColor(feature.properties.mag),
-          fillOpacity: 0.8,
-          weight: 1,
-          color: "black"
+      var marker = new L.CircleMarker(latlng, {
+        radius: feature.properties.mag * 3,
+        fillColor: getColor(feature.properties.mag),
+        fillOpacity: 0.8,
+        weight: 1,
+        color: "black"
       });
+      return marker;
     },
     onEachFeature: onEachFeature
   });
