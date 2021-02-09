@@ -12,10 +12,10 @@ var factor = 255 / max;
 // Perform a GET request to the query URLs
 (async function(){
   const earthquakeData = await d3.json(earthquakeUrl);
-  console.log(earthquakeData.features)
+  console.log(earthquakeData.features);
 
   const plateData = await d3.json(plateUrl);
-  console.log(plateData.features)
+  console.log(plateData.features);
 
   // Once we get a response, send the *.features objects to the createFeatures function
   createFeatures(earthquakeData.features, plateData.features);
