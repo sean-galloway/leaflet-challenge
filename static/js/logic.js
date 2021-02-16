@@ -131,8 +131,8 @@ function createMap(earthquakes, plates) {
 
   // Create overlay object to hold our overlay layer
   var overlayMaps = {
-    Earthquakes: earthquakes,
-    Plates: plates
+    "Earthquakes": earthquakes,
+    "Plates": plates
   };
 
   // Create our map, giving it the satellite, plates and earthquakes layers to display on load
