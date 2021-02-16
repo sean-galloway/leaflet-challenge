@@ -3,7 +3,7 @@ const earthquakeUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary
 const plateUrl = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
 
 // set up the categories for the earthquakes
-const categories = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+const categories = [10, 20, 30, 40, 50, 60, 70, 80, 90];
 // Find the maximum in the categories array
 var max = Math.max(...categories);
 // set the multiplication factor for the generateColor function
@@ -42,13 +42,13 @@ function decimalToHexString(number) {
 }
 
 // Generate a color from green to red based on the Magnitude
-function generateColor(magnitude) {
+function generateColor(depth) {
   // find the red value in the range 0-255
-  var red = 2 * factor * magnitude;
+  var red = 2 * factor * depth;
   if (red < 0) { red = 0; }
   if (red > 255) { red = 255; }
   // find the green value in the range 0-255
-  var green = 2 * factor * (max - magnitude);
+  var green = 2 * factor * (max - depth);
   if (green < 0) { green = 0; }
   if (green > 255) { green = 255; }
   // get the hex versions
@@ -64,7 +64,8 @@ function createFeatures(earthquakeData, plateData) {
   // Give each feature a popup describing the place, magnitude and time of the earthquake
   function onEachFeature(feature, layer) {
     layer.bindPopup("<h3>" + feature.properties.place + "</h3>" +
-      "Magnitude: <strong>" + feature.properties.mag + "</strong><hr>" +
+      "Magnitude: <strong>" + feature.properties.mag + "</strong><br>" +
+      "Depth: <strong>" + feature.geometry.coordinates[2] + "</strong><hr>" +
       "<p>" + new Date(feature.properties.time) + "</p>");
   }
 
@@ -74,7 +75,7 @@ function createFeatures(earthquakeData, plateData) {
     pointToLayer: function(feature, latlng) {
       var marker = new L.CircleMarker(latlng, {
         radius: feature.properties.mag * 3,
-        fillColor: generateColor(feature.properties.mag),
+        fillColor: generateColor(feature.geometry.coordinates[2]),
         fillOpacity: 0.8,
         weight: 1,
         color: "black"
@@ -157,7 +158,7 @@ function createMap(earthquakes, plates) {
   var legend = L.control({position: 'bottomright'});
   legend.onAdd = function (myMap) {
     let div = L.DomUtil.create('div', 'info legend');
-    var labels = ['<strong>Magnitude</strong>'];
+    var labels = ['<strong>Depth</strong>'];
     for (var i = 0; i < categories.length; i++) {
       var color_text = categories[i].toString();
       if (i == categories.length - 1) {
